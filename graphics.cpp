@@ -74,6 +74,26 @@ void run_application() {
 					}
 				}
 			}
+
+			if (event.type == sf::Event::MouseButtonPressed) {
+				if (currentState != MENU) {
+					int mouse_x = event.mouseButton.x;
+					int mouse_y = event.mouseButton.y;
+
+					if (event.mouseButton.button == sf::Mouse::Left) {
+						center_x = center_x + (mouse_x - width / 2.0) * zoom;
+						center_y = center_y + (mouse_y - height / 2.0) * zoom;
+						zoom = zoom / 2.0;
+						needs_update = true;
+					}
+					else if (event.mouseButton.button == sf::Mouse::Right) {
+						center_x = center_x + (mouse_x - width / 2.0) * zoom;
+						center_y = center_y + (mouse_y - height / 2.0) * zoom;
+						zoom = zoom * 2.0;
+						needs_update = true;
+					}
+				}
+			}
 		}
 
 		if (needs_update && currentState != MENU) {

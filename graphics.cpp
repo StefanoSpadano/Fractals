@@ -23,6 +23,18 @@ void run_application() {
 
 	AppState currentState = MENU;
 
+	double center_x = 0.0;
+	double center_y = 0.0;
+	double zoom = 3.0 / width;
+
+	bool needs_update = false;
+
+	sf::Image image;
+	image.create(width, height, sf::Color::Black);
+	sf::Texture texture;
+	sf::Sprite sprite;
+
+
 
 
 	while (window.isOpen()) {
@@ -38,23 +50,56 @@ void run_application() {
 					if (event.key.code == sf::Keyboard::Num1) {
 						currentState = JULIA;
 						std::cout << "Passing to state Julia. " << std::endl;
+						needs_update = true;
 					}
 					if (event.key.code == sf::Keyboard::Num2) {
 						currentState = MANDELBROT;
 						std::cout << "Passing to state Mandelbrot. " << std::endl;
+						needs_update = true;
 					}
 					if (event.key.code == sf::Keyboard::Num3) {
 						currentState = CUBIC;
 						std::cout << "Passing to state Cubic. " << std::endl;
+						needs_update = true;
+					}
+				}
+				else {
+					if (event.key.code == sf::Keyboard::Escape) {
+						currentState = MENU;
+						std::cout << "Going to menu. " << std::endl;
+						needs_update = true;
+						center_x = 0.0;
+						center_y = 0.0;
+						zoom = 3.0 / width;
 					}
 				}
 			}
 		}
 
+		if (needs_update && currentState != MENU) {
+			if (currentState == JULIA) {
+				compute_julia(image, width, height, center_x, center_y, zoom);
+			}
+			else if (currentState == MANDELBROT) {
+				compute_mandelbrot(image, width, height, center_x, center_y, zoom);
+			}
+			else if (currentState == CUBIC) {
+				compute_cubic_fractal(image, width, height, center_x, center_y, zoom);
+			}
+
+			texture.loadFromImage(image);
+			sprite.setTexture(texture);
+
+
+			needs_update = false;
+		}
+
 		window.clear();
 		if (currentState == MENU) {
 			window.draw(menuText);
-		} else {}
+		} else {
+			window.draw(sprite);
+		}
 		window.display();
 
 	}

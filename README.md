@@ -11,7 +11,7 @@ A C++ application to generate and interactevely explore fractals using SFML libr
 ### Supported fractals
 1.Julia's set;
 2.Mandelbrot's set;
-3.cubic Mandelbrot's set ($Z = Z^# + C$).
+3.cubic Mandelbrot's set ($Z = Z^3 + C$).
 
 ## Structure of the project
 Code is designed in modules:
